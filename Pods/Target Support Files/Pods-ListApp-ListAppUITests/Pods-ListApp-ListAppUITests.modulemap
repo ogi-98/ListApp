@@ -1,0 +1,6 @@
+framework module Pods_ListApp_ListAppUITests {
+  umbrella header "Pods-ListApp-ListAppUITests-umbrella.h"
+
+  export *
+  module * { export * }
+}

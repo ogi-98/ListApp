@@ -91,13 +91,13 @@ class SignUpPage: UIViewController {
                             
                         } onError: { er in
                             self.removeSpinner()
-                            self.simpleAlertView(title: "Save Eror!", message: er, buttontitle: "Cancel")
+                            self.simpleAlertView(title: "Save Error!", message: er, buttontitle: "Cancel")
                         }
 
                         
                     } onError: { er in
                         self.removeSpinner()
-                        self.simpleAlertView(title: "Eror!", message: er, buttontitle: "Cancel")
+                        self.simpleAlertView(title: "Error!", message: er, buttontitle: "Cancel")
                     }
 
                     

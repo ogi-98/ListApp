@@ -63,10 +63,14 @@ class DetailsViewController: UIViewController {
      }
      */
     @IBAction func phonePress(_ sender: UIButton) {
+        print("basti")
+        
         guard let phoneNumber = brandTelNumber else { return }
-        guard let url = URL(string: "tel://" + phoneNumber),
+        guard let url = URL(string: "tel://" + phoneNumber.removingWhitespaces()),
               UIApplication.shared.canOpenURL(url) else { return }
+        print(url)
         UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        
     }
     @IBAction func webPress(_ sender: UIButton) {
         if brandWebPage != "" && brandWebPage != nil {

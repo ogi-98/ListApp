@@ -100,3 +100,8 @@ extension UIImageView{
     
     
 }
+extension String {
+    func removingWhitespaces() -> String {
+        return components(separatedBy: .whitespaces).joined()
+    }
+}

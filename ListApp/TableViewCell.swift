@@ -26,7 +26,6 @@ class CustomTableViewCell: UITableViewCell {
     var controller: TableViewControllerBrands!
     var imageUrlString = String()
     var brand: Magaza? = nil
-    var brandOnceki: Magaza? = nil
     
     
     
@@ -40,21 +39,13 @@ class CustomTableViewCell: UITableViewCell {
         
     }
     func loadData( _ magaza:Magaza){
-//        if magaza.name.prefix(1) == magazaOnceki.name.prefix(1) {
-            self.customName.isHidden = false
-            self.customFloor.isHidden = false
-            self.customCategory.isHidden = false
-            self.resim.isHidden = false
+
             self.customName.text = magaza.name
             self.customFloor.text = magaza.floor
             self.customCategory.text = magaza.category
             self.brand = magaza
-//            self.brandOnceki = magazaOnceki
             self.imageUrlString = magaza.imageUrl
             self.resim.loadImageFromWeb(withUrl: imageUrlString)
-//        }else{
-//            NameFirstElementCreater(magaza)
-//        }
         
         
 

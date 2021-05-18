@@ -16,7 +16,8 @@ class TableViewControllerBrands: UITableViewController, UISearchResultsUpdating{
 //    var besinci = Magaza(name: "H&M", category: "giyim", floor: "kat 1", imageUrl: "hm")
     
     
-
+    @IBOutlet var listTableView: UITableView!
+    
     var brands: [Magaza] = []
     let cellId = "customCellid"
     var searchResult: [Magaza] = []
@@ -25,8 +26,17 @@ class TableViewControllerBrands: UITableViewController, UISearchResultsUpdating{
     var searchController : UISearchController = UISearchController(searchResultsController: nil)
 
     @IBOutlet weak var logOutBttn: UIBarButtonItem!
+    @IBOutlet weak var categoryBttn: UIBarButtonItem!
     
     
+    @IBOutlet weak var categoryControl: UISegmentedControl!
+    
+    @IBOutlet weak var segmentControlFloor: UISegmentedControl!
+    var minus3: [Magaza] = []
+    var minus2: [Magaza] = []
+    var minus1: [Magaza] = []
+    var minus0: [Magaza] = []
+    var positive1: [Magaza] = []
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -44,10 +54,62 @@ class TableViewControllerBrands: UITableViewController, UISearchResultsUpdating{
 
         tableView.delegate = self
         tableView.dataSource = self
+        
         setupSearchBarController()
         observeBrands()
         
     }
+    
+    
+    @IBAction func CategorySelectBttn(_ sender: UIBarButtonItem) {
+         
+        
+    }
+    
+    @IBAction func FloorSelect(_ sender: UISegmentedControl) {
+        
+        switch segmentControlFloor.selectedSegmentIndex {
+        case 0: sortBrandsAtoZ()
+            break
+        case 1:
+            
+            if minus3.count == 0 {
+                putBrandsOnFloor()
+            }
+            sortBrandsAtoZminus3()
+
+            break
+        case 2:
+            if minus2.count == 0 {
+                putBrandsOnFloor()
+            }
+            sortBrandsAtoZminus2()
+            break
+        case 3:
+            if minus1.count == 0 {
+                putBrandsOnFloor()
+            }
+            sortBrandsAtoZminus1()
+            break
+        case 4:
+            if minus0.count == 0 {
+                putBrandsOnFloor()
+            }
+            sortBrandsAtoZminus0()
+            break
+        case 5:
+            if positive1.count == 0 {
+                putBrandsOnFloor()
+            }
+            sortBrandsAtoZplus1()
+            break
+        default:
+            sortBrandsAtoZ()
+            break
+        }
+        
+    }
+    
     
     func observeBrands(){
         self.showSpinner()
@@ -60,25 +122,148 @@ class TableViewControllerBrands: UITableViewController, UISearchResultsUpdating{
         }
 
     }
+    func nameCheck(brand:Magaza, arr:[Magaza]) -> Bool{
+        var same = false
+        
+        for i in 0..<arr.count {
+            if arr[i].name == brand.name {
+                print("ayni")
+                same = false
+            }else{
+                print("ayni degil")
+                same = true
+            }
+        }
+        return same
+        
+        
+    }
+    func putBrandsOnFloor(){
+        DispatchQueue.main.async { [self] in
+            brands.forEach { maga in
+                switch maga.floor.trimmingCharacters(in: .whitespacesAndNewlines).lowercased() {
+                case "metro floor (-2)":
+                    if minus2.count == 0{
+                        self.minus2.append(maga)
+                        minus2 = minus2.sorted(by: {$0.name < $1.name})
+                    }else{
+                        if nameCheck(brand: maga, arr: minus2) {
+                            self.minus2.append(maga)
+                            minus2 = minus2.sorted(by: {$0.name < $1.name})
+                        }
+                    }
+                    
+                    break
+                case "parking floor (-3)":
+                    if minus3.count == 0{
+                        self.minus3.append(maga)
+                        minus3 = minus3.sorted(by: {$0.name < $1.name})
+                    }else{
+                        if nameCheck(brand: maga, arr: minus3) {
+                            self.minus3.append(maga)
+                            minus3 = minus3.sorted(by: {$0.name < $1.name})
+                        }
+                    }
+                    break
+                case "bosphorus floor (-1)":
+                    if minus1.count == 0{
+                        self.minus1.append(maga)
+                        minus1 = minus1.sorted(by: {$0.name < $1.name})
+                    }else{
+                        if nameCheck(brand: maga, arr: minus1) {
+                            self.minus1.append(maga)
+                            minus1 = minus1.sorted(by: {$0.name < $1.name})
+                        }
+                    }
+
+                    break
+                case "square floor (0)":
+                    if minus0.count == 0{
+                        self.minus0.append(maga)
+                        minus0 = minus0.sorted(by: {$0.name < $1.name})
+                    }else{
+                        if nameCheck(brand: maga, arr: minus0) {
+                            self.minus0.append(maga)
+                            minus0 = minus0.sorted(by: {$0.name < $1.name})
+                        }
+                    }
+
+                    break
+                case "bridge floor (1)":
+                    if positive1.count == 0{
+                        self.positive1.append(maga)
+                        positive1 = positive1.sorted(by: {$0.name < $1.name})
+                    }else{
+                        if nameCheck(brand: maga, arr: positive1) {
+                            self.positive1.append(maga)
+                            positive1 = positive1.sorted(by: {$0.name < $1.name})
+                        }
+                    }
+
+                    break
+                default:
+                    if positive1.count == 0{
+                        self.positive1.append(maga)
+                        positive1 = positive1.sorted(by: {$0.name < $1.name})
+                    }else{
+                        if nameCheck(brand: maga, arr: positive1) {
+                            self.positive1.append(maga)
+                            positive1 = positive1.sorted(by: {$0.name < $1.name})
+                        }
+                    }
+
+                }
+            }
+        }
+    }
+    
     func sortBrandsAtoZ() {
         brands = brands.sorted(by: {$0.name < $1.name})
         lastBrandsKey = brands.first?.id
-        DispatchQueue.main.async {
+        DispatchQueue.main.async { [self] in
             self.tableView.reloadData()
             self.removeSpinner()
         }
         
     }
-    func CheckBrandsName(){
-        for n in 0..<self.brands.count - 1 {
-            
-            if self.brands[n].name.prefix(1) == self.brands[n + 1].name.prefix(1) {
-                print("harfler ayni")
-            }else{
-                self.brands.insert(Magaza(name: String(self.brands[n + 1].name.prefix(1)), category: "", floor: "", imageUrl: "", detailImageUrl: "", detailText: "", phoneNumber: "", webSite: "", id: "\(UUID())"), at: n + 1)
-            }
+    func sortBrandsAtoZminus3() {
+        minus3 = minus3.sorted(by: {$0.name < $1.name})
+        DispatchQueue.main.async {
+            print("reload et")
+            self.tableView.reloadData()
         }
         
+    }
+    func sortBrandsAtoZminus2() {
+        minus2 = minus2.sorted(by: {$0.name < $1.name})
+        lastBrandsKey = minus2.first?.id
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
+        
+    }
+    func sortBrandsAtoZminus1() {
+        minus1 = minus1.sorted(by: {$0.name < $1.name})
+        lastBrandsKey = minus1.first?.id
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
+        
+    }
+    func sortBrandsAtoZminus0() {
+        minus0 = minus0.sorted(by: {$0.name < $1.name})
+        lastBrandsKey = minus0.first?.id
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
+        
+    }
+    func sortBrandsAtoZplus1() {
+        positive1 = positive1.sorted(by: {$0.name < $1.name})
+        lastBrandsKey = positive1.first?.id
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
         
     }
     
@@ -138,6 +323,7 @@ class TableViewControllerBrands: UITableViewController, UISearchResultsUpdating{
     }
     func emptyFilterContent(){
         searchResult = self.brands
+        
     }
 
     // MARK: - Table view data source
@@ -151,8 +337,27 @@ class TableViewControllerBrands: UITableViewController, UISearchResultsUpdating{
         // #warning Incomplete implementation, return the number of rows
         if searchController.isActive{
             return searchResult.count
+            
         }else{
-            return self.brands.count
+            
+            switch segmentControlFloor.selectedSegmentIndex {
+            case 0: return self.brands.count
+                
+            case 1:
+                return self.minus3.count
+
+            case 2:
+                return self.minus2.count
+            case 3:
+                return self.minus1.count
+            case 4:
+                return self.minus0.count
+            case 5:
+                return self.positive1.count
+            default:
+                return self.brands.count
+            }
+            
         }
     }
 
@@ -160,21 +365,35 @@ class TableViewControllerBrands: UITableViewController, UISearchResultsUpdating{
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "customCellid",for: indexPath) as! CustomTableViewCell
         
+        let magaza : Magaza
+        switch segmentControlFloor.selectedSegmentIndex {
+        case 0: magaza = searchController.isActive ? searchResult[indexPath.row] : brands[indexPath.row]
+            break
+            
+        case 1:
+             magaza = searchController.isActive ? searchResult[indexPath.row] : minus3[indexPath.row]
+            print(minus3.count)
+            break
+        case 2:
+            magaza = searchController.isActive ? searchResult[indexPath.row] : minus2[indexPath.row]
+           break
+        case 3:
+            magaza = searchController.isActive ? searchResult[indexPath.row] : minus1[indexPath.row]
+           break
+        case 4:
+            magaza = searchController.isActive ? searchResult[indexPath.row] : minus0[indexPath.row]
+           break
+        case 5:
+            magaza = searchController.isActive ? searchResult[indexPath.row] : positive1[indexPath.row]
+           break
+        default:
+            magaza = searchController.isActive ? searchResult[indexPath.row] : brands[indexPath.row]
+           break
+            
+        }
         
-//        cell.textLabel?.text = self.animals[indexPath.row]
-//        cell.customName.text = animals[indexPath.row].name
-//        cell.customCategory.text = animals[indexPath.row].category
-//        cell.customFloor.text = animals[indexPath.row].floor
-//        cell.imageView?.image = UIImage(named: animals[indexPath.row].imageUrl)
-        let magaza = searchController.isActive ? searchResult[indexPath.row] : brands[indexPath.row]
-//        let magazaonceki = searchController.isActive ? searchResult[indexPath.row - 1] : brands[indexPath.row - 1]
+//        let magaza = searchController.isActive ? searchResult[indexPath.row] : brands[indexPath.row]
         cell.controller = self
-//        if indexPath.row == 0 || indexPath.row > brands.count {
-//            cell.loadData(magaza, magaza)
-//        }else{
-//            cell.loadData(magaza,magazaonceki)
-//
-//        }
         cell.loadData(magaza)
         
 
@@ -182,6 +401,7 @@ class TableViewControllerBrands: UITableViewController, UISearchResultsUpdating{
 
         return cell
     }
+        
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 100.0
     }

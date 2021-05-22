@@ -20,7 +20,6 @@ class UserApi {
     
     func userSignUp(mail:String,pass:String, onSucces: @escaping() -> Void , onError: @escaping(_ errMessage: String) -> Void) {
         
-        
         Auth.auth().createUser(withEmail: mail, password: pass) { (user, error) in
             if error == nil{
                 onSucces()

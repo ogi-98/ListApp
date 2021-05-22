@@ -8,13 +8,6 @@
 import UIKit
 
 class TableViewControllerBrands: UITableViewController, UISearchResultsUpdating{
-
-//    var birinci = Magaza(name: "adidas", category: "giyim", floor: "kat 1", imageUrl: "adidasLogo")
-//    var ikinci = Magaza(name: "nike", category: "giyim", floor: "kat 2", imageUrl: "nike")
-//    var ucuncu = Magaza(name: "Apple", category: "teknoloji", floor: "kat 0", imageUrl: "appleLogo")
-//    var dorduncu = Magaza(name: "Zara", category: "giyim", floor: "kat 2", imageUrl: "zara")
-//    var besinci = Magaza(name: "H&M", category: "giyim", floor: "kat 1", imageUrl: "hm")
-    
     
     @IBOutlet var listTableView: UITableView!
     
@@ -39,19 +32,7 @@ class TableViewControllerBrands: UITableViewController, UISearchResultsUpdating{
     var positive1: [Magaza] = []
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
         
-//        animals.append(birinci)
-//        animals.append(ikinci)
-//        animals.append(ucuncu)
-//        animals.append(dorduncu)
-//        animals.append(besinci)
-
         tableView.delegate = self
         tableView.dataSource = self
         
@@ -290,7 +271,6 @@ class TableViewControllerBrands: UITableViewController, UISearchResultsUpdating{
 
     func setupSearchBarController() {
         searchController.searchResultsUpdater = self
-//        searchController.dimsBackgroundDuringPresentation = true
         searchController.obscuresBackgroundDuringPresentation = true
         searchController.searchBar.placeholder = "Search brands..."
         searchController.obscuresBackgroundDuringPresentation = false
@@ -403,7 +383,7 @@ class TableViewControllerBrands: UITableViewController, UISearchResultsUpdating{
     }
         
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 100.0
+        return 120.0
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

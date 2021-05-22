@@ -89,7 +89,6 @@ class GirisPage: UIViewController {
                     self.simpleAlertView(title: "SignIn Error!", message: error, buttontitle: "Cancel")
                 }
 
-                
             }else{
                 self.removeSpinner()
                 simpleAlertView(title: "Invalid E-mail!", message: "Please check your email", buttontitle: "Cancel")
